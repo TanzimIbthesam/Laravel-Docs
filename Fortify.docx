@@ -1,0 +1,59 @@
+At First we need to install fortify 
+composer require laravel/fortify
+
+Next we need to publish resources of Fortify 
+php artisan vendor:publish --provider="Laravel\Fortify\FortifyServiceProvider"
+
+
+Next migrate the database
+php artisan migrate
+
+Then we should go to config app.php 
+In providers add
+ App\Providers\FortifyServiceProvider::class
+
+In vendor/Laravel/fortify/config/app.php we can see all features which are available 
+
+Also we enable or comment out features we dont need in app/
+In app/fortify.php we can see all the features it provides under the features array.
+Here we can comment out the features we dont need
+  'features' => [
+        Features::registration(),
+        Features::resetPasswords(),
+        Features::emailVerification(),
+        Features::updateProfileInformation(),
+        Features::updatePasswords(),
+        Features::twoFactorAuthentication([
+            'confirmPassword' => true,
+        ]),
+    ],
+
+
+
+In FortifyServiceProvider.php 
+
+Then just write name of database and run php artisan:migrate
+ public function boot()
+    {
+        Fortify::createUsersUsing(CreateNewUser::class);
+        Fortify::updateUserProfileInformationUsing(UpdateUserProfileInformation::class);
+        Fortify::updateUserPasswordsUsing(UpdateUserPassword::class);
+        Fortify::resetUserPasswordsUsing(ResetUserPassword::class);
+ 
+ 
+        Fortify::loginView(function () {
+            return view('auth.login');
+        });
+        Fortify::registerView(function () {
+            return view('auth.register');
+        });
+        Fortify::requestPasswordResetLinkView(function () {
+            return view('auth.passwords.email');
+        });
+        Fortify::resetPasswordView(function ($request) {
+            return view('auth.passwords.reset');
+        });
+    }
+
+It consists of login register password reset view 
+ The scaffolding of bootstrap is written in a different document 
