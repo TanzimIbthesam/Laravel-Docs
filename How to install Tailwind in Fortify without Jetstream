@@ -1,0 +1,23 @@
+1,First run npm install tailwindcss        
+         
+
+2.Then run npx tailwindcss init -p 
+
+3.Then in webpack.config.js just copy and paste
+Laravel 8 does not come witha default app.scss file so we have to create a default app.scss file 
+const mix = require('laravel-mix');
+const tailwindcss = require('tailwindcss');
+ 
+mix.js('resources/js/app.js', 'public/js')
+    .sass('resources/css/app.scss', 'public/css')
+    .options({
+        processCssUrls: false,
+        postCss: [tailwindcss('./tailwind.config.js')],
+    });
+ 
+
+After doing this run npm run dev and npm run watch
+3. Link your app.css file must have all tailwind classes
+4. Then you link your css file to blade 
+ <link href="{{ mix('css/app.css') }}" rel="stylesheet">
+
