@@ -1,0 +1,39 @@
+1.npm install bootstrap jquery popper.js
+2. Go to resource create app.scss you can name it whatever but it must be a scss file 
+In that file 
+@import '~bootstrap/scss/bootstrap';
+
+Then go to webpack.mixin.js 
+const mix = require('laravel-mix');
+const tailwindcss = require('tailwindcss');
+//for tailwind
+mix.js('resources/js/app.js', 'public/js')
+    .sass('resources/css/app.scss', 'public/css')
+    .options({
+        processCssUrls: false,
+        postCss: [tailwindcss('./tailwind.config.js')],
+    });
+//For bootstrap
+mix
+    .sass('resources/css/apptwo.scss', 'public/css')
+
+Then just link your blade with css files 
+    <link href="{{ mix('css/apptwo.css') }}" rel="stylesheet">
+
+The webpack.mixin.js shows options for both bootstrap and Tailwind
+ In js just copy and paste 
+In app.js just copy and paste
+require('./bootstrap');
+ 
+
+In bootstrap.js just copy and paste 
+window._ = require('lodash');
+ 
+ 
+try {
+    window.Popper = require('popper.js').default;
+    window.$ = window.jQuery = require('jquery');
+ 
+    require('bootstrap');
+} catch (e) {}
+
