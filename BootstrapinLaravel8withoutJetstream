@@ -1,4 +1,4 @@
-1.npm install bootstrap jquery popper.js
+1.npm install bootstrap jquery popper.js --save-dev
 2. Go to resource create app.scss you can name it whatever but it must be a scss file 
 In that file 
 @import '~bootstrap/scss/bootstrap';
