@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\BlogStore;
 use App\Models\Blog;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class BlogController extends Controller
 {
@@ -16,7 +17,18 @@ class BlogController extends Controller
     public function index()
     {
         //
-        return view('blogs.index',['blogs'=>Blog::all()]);
+        // DB::connection()->enableQueryLog();
+        // DB::enableQueryLog();
+        // // $blogs=Blog::all();
+        // $blogs=Blog::with('comment')->get();
+        // foreach($blogs as $blog){
+        //     foreach($blog->comment as $commentone){
+        //         echo $commentone->content;
+        //     }
+        // }
+        // dd(DB::getQueryLog());
+     return view('blogs.index',['blogs'=>Blog::withCount('comment')->get()]);
+        //  return view('blogs.index',['blogs'=>Blog::find(1)->comment]);
     }
 
     /**

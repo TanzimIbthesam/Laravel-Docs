@@ -5,12 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Blog extends Model
+class Phone extends Model
 {
     use HasFactory;
-    protected $guarded=[];
-    public function comment()
+    public function user()
     {
-        return $this->hasMany(Comment::class);
+        return $this->belongsTo('App\User');
     }
 }

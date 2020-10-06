@@ -1,7 +1,10 @@
 @extends('layouts')
 @section('content')
+
+
  <a href="{{ route('blogs.create') }}" class="px-4 py-1 bg-transparent border border-gray-900 text-orange-800">Create New Post</a>
 @forelse ($blogs as $blog)
+
 <div class="flex flex-col justify-center items-center w-full">
 <div class="w-3/5 rounded overflow-hidden shadow-lg mx-auto">
   {{-- <img class="w-full" src="/img/card-top.jpg" alt="Sunset in the mountains"> --}}
@@ -17,6 +20,16 @@
         @method('DELETE')
         <button class="px-4 py-1 bg-transparent border border-gray-900 text-orange-800" type="submit">DELETE</button>
     </form>
+
+    @if($blog->comment_count)
+<p class="text-md font-semibold font-sans text-gray-700">{{ $blog->comment_count}} Comments</p>
+</p>
+
+
+    @else
+      <p class="text-md font-semibold font-sans text-gray-700">No Comments</p>
+      @endif
+
 
     {{-- <p class="text-gray-700 text-base">
      {{ $blog->body }}

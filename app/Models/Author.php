@@ -5,12 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Blog extends Model
+class Author extends Model
 {
     use HasFactory;
-    protected $guarded=[];
-    public function comment()
+
+    public function profile()
     {
-        return $this->hasMany(Comment::class);
+       return $this->hasOne(Profile::class);
+        // return $this->hasOne('App\Models\Profile');
     }
+
 }
