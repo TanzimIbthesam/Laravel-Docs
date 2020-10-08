@@ -14,6 +14,12 @@ class BlogController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct()
+    {
+    // return $this->middleware('auth')->except(['index','show']);
+        // //On the other hand if we only want to protect only some routes
+        return $this->middleware('auth')->only(['index', 'show']);
+    }
     public function index()
     {
         //

@@ -2,15 +2,21 @@
 @section('content')
 
 
- <a href="{{ route('blogs.create') }}" class="px-4 py-1 bg-transparent border border-gray-900 text-orange-800">Create New Post</a>
-@forelse ($blogs as $blog)
+
+
 
 <div class="flex flex-col justify-center items-center w-full">
+    @if(Auth::user())
+ <a href="{{ route('blogs.create') }}" class="px-4 py-1 bg-transparent border border-gray-900 text-orange-800">Create New Post</a>
+ @endif
+    @forelse ($blogs as $blog)
 <div class="w-3/5 rounded overflow-hidden shadow-lg mx-auto">
   {{-- <img class="w-full" src="/img/card-top.jpg" alt="Sunset in the mountains"> --}}
   <div class="px-6 py-4">
     <div class="font-bold text-xl mb-2"><a href="{{ route('blogs.show',['blog'=>$blog->id]) }}">{{ $blog->title }}</a></div>
+    @if (Auth::user())
     <a a href="{{ route('blogs.edit',['blog'=>$blog->id])}}" class="px-4 py-1 bg-transparent border border-gray-900 text-orange-800">Edit</a>
+    @endif
 
     {{-- <a a href="{{ route('blogs.destroy',['blog'=>$blog->id])}}" class="px-4 py-1 bg-transparent border border-gray-900 text-orange-800">Edit</a> --}}
            <form
@@ -18,7 +24,9 @@
     method="post">
         @csrf
         @method('DELETE')
+         @if (Auth::user())
         <button class="px-4 py-1 bg-transparent border border-gray-900 text-orange-800" type="submit">DELETE</button>
+        @endif
     </form>
 
     @if($blog->comment_count)

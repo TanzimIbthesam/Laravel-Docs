@@ -37268,6 +37268,17 @@ module.exports = function(module) {
 
 /***/ }),
 
+/***/ "./resources/css/appthree.scss":
+/*!*************************************!*\
+  !*** ./resources/css/appthree.scss ***!
+  \*************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
 /***/ "./resources/css/apptwo.scss":
 /*!***********************************!*\
   !*** ./resources/css/apptwo.scss ***!
@@ -37298,11 +37309,6 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 /***/ (function(module, exports, __webpack_require__) {
 
 window._ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
-/**
- * We'll load jQuery and the Bootstrap jQuery plugin which provides support
- * for JavaScript based Bootstrap features such as modals and tabs. This
- * code may be modified to fit the specific needs of your application.
- */
 
 try {
   window.Popper = __webpack_require__(/*! popper.js */ "./node_modules/popper.js/dist/esm/popper.js")["default"];
@@ -37310,12 +37316,6 @@ try {
 
   __webpack_require__(/*! bootstrap */ "./node_modules/bootstrap/dist/js/bootstrap.js");
 } catch (e) {}
-/**
- * We'll load the axios HTTP library which allows us to easily issue requests
- * to our Laravel back-end. This library automatically handles sending the
- * CSRF token as a header based on the value of the "XSRF" token cookie.
- */
-
 
 window.axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
@@ -37323,15 +37323,16 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 /***/ }),
 
 /***/ 0:
-/*!****************************************************************************************!*\
-  !*** multi ./resources/js/app.js ./resources/css/app.scss ./resources/css/apptwo.scss ***!
-  \****************************************************************************************/
+/*!**********************************************************************************************************************!*\
+  !*** multi ./resources/js/app.js ./resources/css/app.scss ./resources/css/apptwo.scss ./resources/css/appthree.scss ***!
+  \**********************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\TANZIM\Desktop\Laravel-8\Basics\resources\js\app.js */"./resources/js/app.js");
-__webpack_require__(/*! C:\Users\TANZIM\Desktop\Laravel-8\Basics\resources\css\app.scss */"./resources/css/app.scss");
-module.exports = __webpack_require__(/*! C:\Users\TANZIM\Desktop\Laravel-8\Basics\resources\css\apptwo.scss */"./resources/css/apptwo.scss");
+__webpack_require__(/*! C:\Users\TANZIM\Desktop\Laravel-8\Laravel-Docs\resources\js\app.js */"./resources/js/app.js");
+__webpack_require__(/*! C:\Users\TANZIM\Desktop\Laravel-8\Laravel-Docs\resources\css\app.scss */"./resources/css/app.scss");
+__webpack_require__(/*! C:\Users\TANZIM\Desktop\Laravel-8\Laravel-Docs\resources\css\apptwo.scss */"./resources/css/apptwo.scss");
+module.exports = __webpack_require__(/*! C:\Users\TANZIM\Desktop\Laravel-8\Laravel-Docs\resources\css\appthree.scss */"./resources/css/appthree.scss");
 
 
 /***/ })

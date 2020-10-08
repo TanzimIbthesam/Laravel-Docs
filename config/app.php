@@ -1,5 +1,7 @@
 <?php
 
+
+
 return [
 
     /*
@@ -162,10 +164,10 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
 
+
         /*
          * Package Service Providers...
          */
-
         /*
          * Application Service Providers...
          */
@@ -174,6 +176,9 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        App\Providers\FortifyServiceProvider::class
+        /*
+
 
     ],
 
@@ -187,7 +192,7 @@ return [
     | the aliases are "lazy" loaded so they don't hinder performance.
     |
     */
-
+],
     'aliases' => [
 
         'App' => Illuminate\Support\Facades\App::class,

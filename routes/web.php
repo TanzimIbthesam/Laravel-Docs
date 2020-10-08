@@ -4,10 +4,12 @@ use App\Http\Controllers\BlogController;
 use App\Http\Controllers\BlogPostController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\TestController;
+use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/',[WelcomeController::class,'index']);
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 // Route::get('/test', [TestController::class, 'index']);
 // Route::get('/blog-post/{id}',function($id){
 //     return $id;
@@ -43,6 +45,10 @@ Route::resource('/posts', BlogPostController::class)->only(['create','store','sh
 Route::get('users/{id}', function ($id) {
 
 });
+
+
 Route::resource('/customers',CustomerController::class);
+// Auth::routes();
 Route::resource('/blogs',BlogController::class);
+// Route::view('/home', 'home')->middleware('auth');
 
