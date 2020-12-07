@@ -10,6 +10,12 @@
     <p class="text-gray-700 text-base">
      {{ $blog->body }}
     </p>
+    <h1 class="text-2xl font-bold">Comments</h1>
+    @forelse ($blog->comment as $allcomment)
+         <p>{{ $allcomment->content }},added {{ $allcomment->created_at->diffForHumans() }}</p>
+    @empty
+ <p class="text-2xl text-red-400">No Comments available</p>
+    @endforelse
   </div>
   <div class="px-6 pt-4 pb-2">
     <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#photography</span>

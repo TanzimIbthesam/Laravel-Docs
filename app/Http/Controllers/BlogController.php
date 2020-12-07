@@ -75,7 +75,8 @@ class BlogController extends Controller
     public function show($id)
     {
         //
-        return view('blogs.show',['blog'=>Blog::findorFail($id)]);
+        // return view('blogs.show',['blog'=>Blog::findorFail($id)]);
+        return view('blogs.show',['blog'=>Blog::with('comment')->findorFail($id)]);
     }
 
     /**
