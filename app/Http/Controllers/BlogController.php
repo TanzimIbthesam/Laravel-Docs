@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\BlogStore;
 use App\Models\Blog;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class BlogController extends Controller
@@ -56,14 +57,15 @@ class BlogController extends Controller
      */
     public function store(BlogStore $request)
     {
-        //
-        // $request->validate([
 
-        // ]);
+        $blog=new Blog();
+        $blog->user_id = Auth::user()->id;
         $validateData=$request->validated();
-        $blog=Blog::create($validateData);
+        $validatedData['user_id'] = $request->user()->id;
+        $blogPost=Blog::create($validateData);
 
-             return redirect()->route('blogs.index')->with('status', 'Your blog has been created');
+
+             return redirect()->route('blogs.index', ['blog' => $blogPost->id])->with('status', 'Your blog has been created');
     }
 
     /**

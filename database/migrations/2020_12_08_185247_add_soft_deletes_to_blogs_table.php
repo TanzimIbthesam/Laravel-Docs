@@ -1,10 +1,11 @@
 <?php
 
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddUserToBlogsTable extends Migration
+class AddSoftDeletesToBlogsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -15,12 +16,7 @@ class AddUserToBlogsTable extends Migration
     {
         Schema::table('blogs', function (Blueprint $table) {
             //
-
-                // $table->unsignedInteger('user_id')->nullable();
-
-              $table->foreignId('user_id')->constrained('users');
-            // $table->foreign('user_id')
-            // ->references('id')->on('users');
+            $table->softDeletes();
         });
     }
 
@@ -33,8 +29,7 @@ class AddUserToBlogsTable extends Migration
     {
         Schema::table('blogs', function (Blueprint $table) {
             //
-            $table->dropForeign(['user_id']);
-            $table->dropColumn(['user_id']);
+            $table->SoftDeletes();
         });
     }
 }
