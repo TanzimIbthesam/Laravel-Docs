@@ -29,6 +29,7 @@ class AddSoftDeletesToCommentsTable extends Migration
     {
         Schema::table('comments', function (Blueprint $table) {
             //
+            $table->SoftDeletes();
         });
     }
 }

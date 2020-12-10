@@ -28,7 +28,7 @@
         <button class="px-4 py-1 bg-transparent border border-gray-900 text-orange-800" type="submit">DELETE</button>
         @endif
     </form>
-
+          <p class="text-black">Added-{{ $blog->created_at->diffforHumans() }}-by-{{ $blog->user->name}}</p>
     @if($blog->comment_count)
 <p class="text-md font-semibold font-sans text-gray-700">{{ $blog->comment_count}} Comments</p>
 </p>

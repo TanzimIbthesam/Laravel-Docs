@@ -15,6 +15,11 @@ class Blog extends Model
     {
         return $this->hasMany(Comment::class);
     }
+    public function user()
+    {
+        # code...
+        return $this->belongsTo(User::class);
+    }
     public static function boot()
     {
         parent::boot();

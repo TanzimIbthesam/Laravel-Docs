@@ -7,6 +7,9 @@ use App\Models\Blog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
+
+
 
 class BlogController extends Controller
 {
@@ -58,14 +61,23 @@ class BlogController extends Controller
     public function store(BlogStore $request)
     {
 
-        $blog=new Blog();
-        $blog->user_id = Auth::user()->id;
-        $validateData=$request->validated();
-        $validatedData['user_id'] = $request->user()->id;
-        $blogPost=Blog::create($validateData);
+        // $blog=new Blog();
+        // $blog->user_id = Auth::user()->id;
+        $validated = $request->validated();
+
+        $validated['user_id'] = $request->user()->id;
+
+        $blogPost = Blog::create($validated);
+        //  dd($blogPost);
+        $request->session()->flash('status', 'The Blog Post was Created!');
+        return redirect()->route('blogs.index', ['blog' => $blogPost->id])->with('status', 'Your blog has been created');
+
+        // $validateData=$request->validated();
+        // $validatedData['user_id'] = $request->user()->id;
+        // $blogPost=Blog::create($validateData);
 
 
-             return redirect()->route('blogs.index', ['blog' => $blogPost->id])->with('status', 'Your blog has been created');
+        //      return redirect()->route('blogs.index', ['blog' => $blogPost->id])->with('status', 'Your blog has been created');
     }
 
     /**
@@ -90,6 +102,11 @@ class BlogController extends Controller
     public function edit($id)
     {
         //
+        $blog=Blog::findorFail($id);
+        $this->authorize('update-post', $blog);
+        // if (Gate::denies('update-post', $blog)) {
+        //     abort(403, "You cant edit this blog post");
+        // }
         return view('blogs.edit',['blog'=>Blog::findorFail($id)]);
     }
 
@@ -105,6 +122,10 @@ class BlogController extends Controller
         //
 
         $blog=Blog::findorFail($id);
+        // if (Gate::denies('update-post', $blog)) {
+        //     abort(403,"You cant edit this blog post");
+        // }
+        $this->authorize('update-post',$blog);
         $validateData=$request->validated();
         $blog->fill($validateData);
 
@@ -123,7 +144,8 @@ class BlogController extends Controller
     public function destroy($id)
     {
         //
-        $blog=Blog::find($id);
+        $blog=Blog::findorFail($id);
+        $this->authorize('delete-post',$blog);
          $blog->delete();
 
          return redirect()->route('blogs.index')->with('status','The blog has been deleted');
