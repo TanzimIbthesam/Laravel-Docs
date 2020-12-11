@@ -88,8 +88,8 @@ class BlogController extends Controller
      */
     public function show($id)
     {
-        //
-        // return view('blogs.show',['blog'=>Blog::findorFail($id)]);
+        
+        
         return view('blogs.show',['blog'=>Blog::with('comment')->findorFail($id)]);
     }
 
@@ -103,10 +103,8 @@ class BlogController extends Controller
     {
         //
         $blog=Blog::findorFail($id);
-        $this->authorize('update-post', $blog);
-        // if (Gate::denies('update-post', $blog)) {
-        //     abort(403, "You cant edit this blog post");
-        // }
+        $this->authorize('update', $blog);
+       
         return view('blogs.edit',['blog'=>Blog::findorFail($id)]);
     }
 
@@ -122,10 +120,8 @@ class BlogController extends Controller
         //
 
         $blog=Blog::findorFail($id);
-        // if (Gate::denies('update-post', $blog)) {
-        //     abort(403,"You cant edit this blog post");
-        // }
-        $this->authorize('update-post',$blog);
+    
+        $this->authorize('update',$blog);
         $validateData=$request->validated();
         $blog->fill($validateData);
 
@@ -145,7 +141,8 @@ class BlogController extends Controller
     {
         //
         $blog=Blog::findorFail($id);
-        $this->authorize('delete-post',$blog);
+        
+        $this->authorize('delete',$blog);
          $blog->delete();
 
          return redirect()->route('blogs.index')->with('status','The blog has been deleted');
