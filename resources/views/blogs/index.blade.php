@@ -14,19 +14,25 @@
   {{-- <img class="w-full" src="/img/card-top.jpg" alt="Sunset in the mountains"> --}}
   <div class="px-6 py-4">
     <div class="font-bold text-xl mb-2"><a href="{{ route('blogs.show',['blog'=>$blog->id]) }}">{{ $blog->title }}</a></div>
-    @if (Auth::user())
-    <a a href="{{ route('blogs.edit',['blog'=>$blog->id])}}" class="px-4 py-1 bg-transparent border border-gray-900 text-orange-800">Edit</a>
-    @endif
+    {{-- @if (Auth::user()) --}}
+     @can('update', $blog)
+               <a a href="{{ route('blogs.edit',['blog'=>$blog->id])}}" class="px-4 py-1 bg-transparent border border-gray-900 text-orange-800">Edit</a>
+            @endcan
+  
+    {{-- @endif  --}}
 
     {{-- <a a href="{{ route('blogs.destroy',['blog'=>$blog->id])}}" class="px-4 py-1 bg-transparent border border-gray-900 text-orange-800">Edit</a> --}}
-           <form
+          
+    <form
     action="{{route('blogs.destroy',['blog'=>$blog->id])}}"
     method="post">
         @csrf
         @method('DELETE')
-         @if (Auth::user())
+         {{-- @if (Auth::user()) --}}
+            @can('delete', $blog)
         <button class="px-4 py-1 bg-transparent border border-gray-900 text-orange-800" type="submit">DELETE</button>
-        @endif
+           @endcan
+        {{-- @endif --}}
     </form>
           <p class="text-black">Added-{{ $blog->created_at->diffforHumans() }}-by-{{ $blog->user->name}}</p>
     @if($blog->comment_count)

@@ -34,6 +34,7 @@
 
                      <li><a href="{{ route('blogs.create') }}" class="no-underline text-xl text-black">Add a blog post</a></li>
                      <li><a href="{{ route('blogs.index') }}" class="no-underline text-xl text-black pl-2">All Blog Posts</a></li>
+                     <li><a href="{{ route('contact') }}" class="no-underline text-xl text-black pl-2">Contact Page</a></li>
                      <li>
                               <a class="p-4 text-xl text-black no-underline"  href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
@@ -47,6 +48,7 @@
                      </li>
 
                  @endguest
+
 
            </ul>
     </div>

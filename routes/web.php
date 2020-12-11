@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\BlogPostController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\WelcomeController;
@@ -51,5 +52,10 @@ Route::get('users/{id}', function ($id) {
 Route::resource('/customers',CustomerController::class);
 
 Route::resource('/blogs',BlogController::class);
+
+Route::get('/contact', [ContactController::class,'index'])->name('contact');
+Route::get('/secret', [ContactController::class,'secret'])->name('secret')
+->middleware('can:contact.secret')
+;
 // Route::view('/home', 'home')->middleware('auth');
 
