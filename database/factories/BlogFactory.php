@@ -24,7 +24,8 @@ class BlogFactory extends Factory
         return [
             //
             'title'=>$this->faker->sentence(6),
-            'body'=>$this->faker->paragraphs(5,true)
+            'body'=>$this->faker->paragraphs(5,true),
+            'created_at' => $this->faker->dateTimeBetween('-3 months')
         ];
     }
 }

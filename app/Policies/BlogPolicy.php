@@ -32,6 +32,8 @@ class BlogPolicy
     public function view(User $user, Blog $blog)
     {
         //
+        return $user->id == $blog->user_id;
+
     }
 
     /**
@@ -40,9 +42,11 @@ class BlogPolicy
      * @param  \App\Models\User  $user
      * @return mixed
      */
-    public function create(User $user)
+    public function create(User $user,Blog $blog)
     {
         //
+
+
     }
 
     /**
@@ -55,11 +59,11 @@ class BlogPolicy
     public function update(User $user, Blog $blog)
     {
         //
-         
+
         return $user->id == $blog->user_id
         ? Response::allow()
       : Response::deny('Sorry you are not allowed to delete this post');
-        
+
         ;
     }
 
@@ -76,8 +80,8 @@ class BlogPolicy
         return $user->id === $blog->user_id
          ? Response::allow()
         : Response::deny('Sorry you are not allowed to delete this post');
-            
-       
+
+
     }
 
     /**

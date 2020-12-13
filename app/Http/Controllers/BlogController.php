@@ -20,7 +20,7 @@ class BlogController extends Controller
      */
     public function __construct()
     {
-    return $this->middleware('auth')->except(['index','show']);
+        return $this->middleware('auth')->except(['index', 'show']);
         // //On the other hand if we only want to protect only some routes
         // return $this->middleware('auth')->only(['index', 'show']);
     }
@@ -37,7 +37,20 @@ class BlogController extends Controller
         //     }
         // }
         // dd(DB::getQueryLog());
-     return view('blogs.index',['blogs'=>Blog::withCount('comment')->get()]);
+        //  return view('blogs.index', ['blogs' => Blog::withCount('comment')->get()]);
+         return view('blogs.index',
+         [
+
+            'blogs' => Blog::latest()->withCount('comment')->get(),
+            'mostCommented'=>Blog::mostCommented()->take(5)->get()
+
+            ]);
+        // return view('blogs.index',
+        // ['blogs' =>
+        // Blog::withCount('comment')
+        // ->orderBy('created_at','desc')
+        // ->get()
+        // ]);
         //  return view('blogs.index',['blogs'=>Blog::find(1)->comment]);
     }
 
@@ -88,9 +101,14 @@ class BlogController extends Controller
      */
     public function show($id)
     {
-        
-        
-        return view('blogs.show',['blog'=>Blog::with('comment')->findorFail($id)]);
+
+
+         return view('blogs.show', ['blog' => Blog::with('comment')->findorFail($id)]);
+        //Local scope with closures
+        // return view('blogs.show', ['blog' => Blog::with(['comment'=>function($query){
+        //     return $query->latest();
+
+        // }])->findorFail($id)]);
     }
 
     /**
@@ -102,10 +120,10 @@ class BlogController extends Controller
     public function edit($id)
     {
         //
-        $blog=Blog::findorFail($id);
+        $blog = Blog::findorFail($id);
         $this->authorize('update', $blog);
-       
-        return view('blogs.edit',['blog'=>Blog::findorFail($id)]);
+
+        return view('blogs.edit', ['blog' => Blog::findorFail($id)]);
     }
 
     /**
@@ -119,16 +137,15 @@ class BlogController extends Controller
     {
         //
 
-        $blog=Blog::findorFail($id);
-    
-        $this->authorize('update',$blog);
-        $validateData=$request->validated();
+        $blog = Blog::findorFail($id);
+
+        $this->authorize('update', $blog);
+        $validateData = $request->validated();
         $blog->fill($validateData);
 
         $blog->save();
 
-        return redirect()->route('blogs.index')->with('status','Your blog has been updated');
-
+        return redirect()->route('blogs.index')->with('status', 'Your blog has been updated');
     }
 
     /**
@@ -140,11 +157,11 @@ class BlogController extends Controller
     public function destroy($id)
     {
         //
-        $blog=Blog::findorFail($id);
-        
-        $this->authorize('delete',$blog);
-         $blog->delete();
+        $blog = Blog::findorFail($id);
 
-         return redirect()->route('blogs.index')->with('status','The blog has been deleted');
+        $this->authorize('delete', $blog);
+        $blog->delete();
+
+        return redirect()->route('blogs.index')->with('status', 'The blog has been deleted');
     }
 }
