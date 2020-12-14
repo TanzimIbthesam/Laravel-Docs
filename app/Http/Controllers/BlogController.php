@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\BlogStore;
 use App\Models\Blog;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -42,7 +43,10 @@ class BlogController extends Controller
          [
 
             'blogs' => Blog::latest()->withCount('comment')->get(),
-            'mostCommented'=>Blog::mostCommented()->take(5)->get()
+            'mostCommented'=>Blog::mostCommented()->take(5)->get(),
+            'mostActive'=>User::WithMostBlogPosts()->take(5)->get(),
+            'mostActiveLastMonth'=>User::WithMostBlogPostsLastMonth()->take(5)->get(),
+
 
             ]);
         // return view('blogs.index',
