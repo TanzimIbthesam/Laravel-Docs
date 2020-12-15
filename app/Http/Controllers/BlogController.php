@@ -87,7 +87,7 @@ class BlogController extends Controller
         $blogPost = Blog::create($validated);
         //  dd($blogPost);
         $request->session()->flash('status', 'The Blog Post was Created!');
-        return redirect()->route('blogs.index', ['blog' => $blogPost->id])->with('status', 'Your blog has been created');
+        return redirect()->route('blogs.show', ['blog' => $blogPost->id])->with('status', 'Your blog has been created');
 
         // $validateData=$request->validated();
         // $validatedData['user_id'] = $request->user()->id;
