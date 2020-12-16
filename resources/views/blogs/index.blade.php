@@ -78,7 +78,7 @@
     <div class=" rounded-md overflow-hidden shadow-lg ml-2 bg-white py-8">
         <h1 class="text-xl font-semibold font-serif text-center">Most Commented posts blog</h1>
         @foreach ($mostCommented as $blog)
-        <a  class=" font-serif  text-black px-1" href="{{ route('blogs.show',['blog',$blog->id]) }}">{{ $blog->title }}</a>
+        <a  class=" font-serif  text-black px-1" href="{{ route('blogs.show',['blog'=>$blog->id]) }}">{{ $blog->title }}</a>
 
        {{-- <h1>{{ $blog->title }}</h1> --}}
        @endforeach

@@ -28,10 +28,10 @@ class BlogController extends Controller
     }
     public function index()
     {
-       $mostCommented=Cache::remember('blog-commented', 60, function () {
-           return Blog::mostCommented()->take(5)->get();
 
-       });
+        $mostCommented = Cache::tags(['blog'])->remember('mostCommented', 60, function () {
+            return Blog::mostCommented()->take(5)->get();
+        });
        $mostActive= Cache::remember('users-most-active', 60, function () {
             return User::WithMostBlogPosts()->take(5)->get();
 
@@ -103,14 +103,14 @@ class BlogController extends Controller
     public function show($id)
     {
 
-        $blog=Cache::remember("blog-{$id}", 60, function () use($id){
+        $blog=Cache::tags(['blog'])->remember("blog-{$id}", 60, function () use($id){
              return  Blog::with('comment')->findorFail($id);
         });
         $sessionId=session()->getId();
         $counterKey="blog-{$id}-counter";
         $usersKey="blog-{$id}-users";
 
-        $users=Cache::get($usersKey,[]);
+        $users=Cache::tags('blog')->get($usersKey,[]);
         $usersUpdate=[];
         $difference=0;
         $now=now();
@@ -126,16 +126,17 @@ class BlogController extends Controller
         {
             $difference++;
         }
-             $counter=0;
+            //  $counter=0;
              $usersUpdate[$sessionId]=$now;
-             Cache::forever($usersKey,$usersUpdate);
-             if(!Cache::has($counterKey)){
-                 Cache::forever($counterKey,1);
+        // Cache::tags(['blog-post'])->forever($usersKey, $usersUpdate);
+             Cache::tags(['blog'])->forever($usersKey,$usersUpdate);
+             if(!Cache::tags($counterKey)){
+                 Cache::tags($counterKey,1);
 
              }else{
-            Cache::increment($counterKey, $difference);
+            Cache::tags($counterKey, $difference);
              }
-           $counter=Cache::get($counterKey);
+           $counter=Cache::tags(['blog'])->get($counterKey);
          return view('blogs.show',
          ['blog' =>$blog,
          'counter'=>$counter
