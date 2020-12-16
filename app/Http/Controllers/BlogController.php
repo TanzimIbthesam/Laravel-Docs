@@ -7,6 +7,7 @@ use App\Models\Blog;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 
@@ -27,35 +28,31 @@ class BlogController extends Controller
     }
     public function index()
     {
-        //
-        // DB::connection()->enableQueryLog();
-        // DB::enableQueryLog();
-        // // $blogs=Blog::all();
-        // $blogs=Blog::with('comment')->get();
-        // foreach($blogs as $blog){
-        //     foreach($blog->comment as $commentone){
-        //         echo $commentone->content;
-        //     }
-        // }
-        // dd(DB::getQueryLog());
-        //  return view('blogs.index', ['blogs' => Blog::withCount('comment')->get()]);
+       $mostCommented=Cache::remember('blog-commented', 60, function () {
+           return Blog::mostCommented()->take(5)->get();
+
+       });
+       $mostActive= Cache::remember('users-most-active', 60, function () {
+            return User::WithMostBlogPosts()->take(5)->get();
+
+       });
+       $mostActiveLastMonth= Cache::remember('users-most-active-last-month', 60, function () {
+            return User::WithMostBlogPosts()->take(5)->get();
+
+       });
          return view('blogs.index',
          [
 
-            'blogs' => Blog::latest()->withCount('comment')->get(),
-            'mostCommented'=>Blog::mostCommented()->take(5)->get(),
-            'mostActive'=>User::WithMostBlogPosts()->take(5)->get(),
-            'mostActiveLastMonth'=>User::WithMostBlogPostsLastMonth()->take(5)->get(),
+            // 'blogs' => Blog::latest()->withCount('comment')->get(),
+            //optimized
+              'blogs' => Blog::latest()->withCount('comment')->with('user')->get(),
+            'mostCommented'=>$mostCommented,
+            'mostActive'=>$mostActive,
+            'mostActiveLastMonth'=>$mostActiveLastMonth
 
 
             ]);
-        // return view('blogs.index',
-        // ['blogs' =>
-        // Blog::withCount('comment')
-        // ->orderBy('created_at','desc')
-        // ->get()
-        // ]);
-        //  return view('blogs.index',['blogs'=>Blog::find(1)->comment]);
+
     }
 
     /**
@@ -106,13 +103,45 @@ class BlogController extends Controller
     public function show($id)
     {
 
+        $blog=Cache::remember("blog-{$id}", 60, function () use($id){
+             return  Blog::with('comment')->findorFail($id);
+        });
+        $sessionId=session()->getId();
+        $counterKey="blog-{$id}-counter";
+        $usersKey="blog-{$id}-users";
 
-         return view('blogs.show', ['blog' => Blog::with('comment')->findorFail($id)]);
-        //Local scope with closures
-        // return view('blogs.show', ['blog' => Blog::with(['comment'=>function($query){
-        //     return $query->latest();
+        $users=Cache::get($usersKey,[]);
+        $usersUpdate=[];
+        $difference=0;
+        $now=now();
+        foreach ($users as $session => $lastVisit) {
+            if($now->diffInMinutes($lastVisit)>=1){
+                $difference--;
+            }else{
+                $usersUpdate[$session]=$lastVisit;
+            }
+            # code...
+        }
+        if(!array_key_exists($sessionId,$users)|| $now->diffInMinutes($users[$sessionId])>=1)
+        {
+            $difference++;
+        }
+             $counter=0;
+             $usersUpdate[$sessionId]=$now;
+             Cache::forever($usersKey,$usersUpdate);
+             if(!Cache::has($counterKey)){
+                 Cache::forever($counterKey,1);
 
-        // }])->findorFail($id)]);
+             }else{
+            Cache::increment($counterKey, $difference);
+             }
+           $counter=Cache::get($counterKey);
+         return view('blogs.show',
+         ['blog' =>$blog,
+         'counter'=>$counter
+
+         ]);
+
     }
 
     /**
@@ -149,7 +178,7 @@ class BlogController extends Controller
 
         $blog->save();
 
-        return redirect()->route('blogs.index')->with('status', 'Your blog has been updated');
+        return redirect()->route('blogs.show', ['blog' => $blog])->with('status', 'Your blog has been updated');
     }
 
     /**

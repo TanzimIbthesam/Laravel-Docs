@@ -9,16 +9,13 @@
        <div class="flex">
        <div>
 <h1 class="font-bold text-2xl mb-2">{{ $blog->title }}</h1>
+<p>Users Currently active-{{ $counter }}</p>
    @update(['date'=>$blog->created_at,'name'=>$blog->user->name])
 
          @endupdate
 
 
-         {{-- </x-update> --}}
-            {{-- @component('components.badge')
-                New
-            @endcomponent --}}
-            {{-- Laravel 8  --}}
+
 
 
 
