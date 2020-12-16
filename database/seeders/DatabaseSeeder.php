@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use App\Models\User;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Cache;
 
 class DatabaseSeeder extends Seeder
 {
@@ -15,13 +14,17 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        //  \App\Models\User::factory(10)->create();
+         //Alternatively we can write
+        //  User::factory(10)->create();
+        // $defaultUser = User::factory(1)->defaultUser()->create();
+        // $otherUsers = User::factory(19)->create();
 
+        // $users = $otherUsers->concat($defaultUser);
         if($this->command->confirm('Do you want to refresh database?')){
              $this->command->call('migrate:fresh');
              $this->command->info('Database was refreshed');
-
         }
-        Cache::tags(['blog'])->flush();
         $this->call(UsersTableSeeder::class);
         $this->call(BlogsTableSeeder::class);
         $this->call(CommentsTableSeeder::class);
