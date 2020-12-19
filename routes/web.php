@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\BlogPostController;
+use App\Http\Controllers\BlogTagController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\TestController;
@@ -33,7 +34,7 @@ Route::get('/blog-post/{id}/{welcome?}', function ($id, $welcome = 2) {
 Route::get('users/{id}', function ($id) {
 
 });
-
+Route::get('blogs/tag/{tag}',[BlogTagController::class,'index'])->name('blogs.tags.index');
 
 Route::resource('/customers',CustomerController::class);
 

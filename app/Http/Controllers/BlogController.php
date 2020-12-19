@@ -4,12 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\BlogStore;
 use App\Models\Blog;
-use App\Models\User;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Gate;
+
 
 
 
@@ -28,28 +25,12 @@ class BlogController extends Controller
     }
     public function index()
     {
-       $mostCommented=Cache::remember('blog-commented', 60, function () {
-           return Blog::mostCommented()->take(5)->get();
 
-       });
-       $mostActive= Cache::remember('users-most-active', 60, function () {
-            return User::WithMostBlogPosts()->take(5)->get();
-
-       });
-       $mostActiveLastMonth= Cache::remember('users-most-active-last-month', 60, function () {
-            return User::WithMostBlogPosts()->take(5)->get();
-
-       });
          return view('blogs.index',
          [
 
-            // 'blogs' => Blog::latest()->withCount('comment')->get(),
-            //optimized
-              'blogs' => Blog::latest()->withCount('comment')->with('user','tag')->get(),
 
-            'mostCommented'=>$mostCommented,
-            'mostActive'=>$mostActive,
-            'mostActiveLastMonth'=>$mostActiveLastMonth
+              'blogs' => Blog::latest()->withCount('comment')->with('user','tag')->get(),
 
 
             ]);

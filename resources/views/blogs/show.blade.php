@@ -2,8 +2,8 @@
 @section('content')
 
 
-<div class="flex flex-col justify-center items-center w-full">
-<div class="w-3/5 rounded overflow-hidden shadow-lg mx-auto">
+<div class="container flex mx-auto">
+<div class="w-3/5 rounded overflow-hidden shadow-lg ">
   {{-- <img class="w-full" src="/img/card-top.jpg" alt="Sunset in the mountains"> --}}
   <div class="px-6 py-4 ">
        <div class="flex">
@@ -57,7 +57,10 @@
   </div>
 
 </div>
+<div class="w-1/4">
 
+@include('blogs._activity')
+</div>
 
 </div>
 

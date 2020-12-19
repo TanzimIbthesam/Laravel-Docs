@@ -28,6 +28,8 @@ class DatabaseSeeder extends Seeder
         $this->call(UsersTableSeeder::class);
         $this->call(BlogsTableSeeder::class);
         $this->call(CommentsTableSeeder::class);
+        $this->call(TagsTableSeeder::class);
+        $this->call(BlogTagTableSeeder::class);
 
         // return $users;
     }
