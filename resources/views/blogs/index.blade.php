@@ -48,6 +48,7 @@
 
     @endupdate
 
+
     @if($blog->comment_count)
 <p class="text-md font-semibold font-sans text-gray-700">{{ $blog->comment_count}} Comments</p>
 </p>
@@ -57,13 +58,11 @@
       <p class="text-md font-semibold font-sans text-gray-700">No Comments</p>
       @endif
 
+    @tags (['tags'=>$blog->tag])
+
+@endtags
 
 
-    <div class="px-6 pt-1 pb-2">
-    <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#photography</span>
-    <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#travel</span>
-    <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#winter</span>
-  </div>
   </div>
 
    @empty

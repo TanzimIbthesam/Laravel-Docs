@@ -45,7 +45,8 @@ class BlogController extends Controller
 
             // 'blogs' => Blog::latest()->withCount('comment')->get(),
             //optimized
-              'blogs' => Blog::latest()->withCount('comment')->with('user')->get(),
+              'blogs' => Blog::latest()->withCount('comment')->with('user','tag')->get(),
+
             'mostCommented'=>$mostCommented,
             'mostActive'=>$mostActive,
             'mostActiveLastMonth'=>$mostActiveLastMonth

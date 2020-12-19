@@ -13,7 +13,9 @@
    @update(['date'=>$blog->created_at,'name'=>$blog->user->name])
 
          @endupdate
+@tags (['tags'=>$blog->tag])
 
+@endtags
 
 
 
@@ -25,14 +27,15 @@
 
        </div>
        <div class="ml-1 ">
-           {{-- <x-badge>Brand New Post</x-badge> --}}
-           @if ((new Carbon\Carbon())->diffInMinutes($blog->created_at)<20)
-           {{-- @badge
-                      Brand New Post
-           @endbadge --}}
 
-            <x-badge>Brand New Post</x-badge>
-           @endif
+       @if ((new Carbon\Carbon())->diffInMinutes($blog->created_at)<20)
+     <x-badge >
+                          Brand New Post
+             </x-badge>
+       @endif
+
+
+
        </div>
        </div>
 
@@ -52,11 +55,7 @@
  <p class="text-2xl text-red-400">No Comments available</p>
     @endforelse
   </div>
-  <div class="px-6 pt-4 pb-2">
-    <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#photography</span>
-    <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#travel</span>
-    <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#winter</span>
-  </div>
+
 </div>
 
 

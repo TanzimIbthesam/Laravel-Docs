@@ -34,6 +34,11 @@ class Blog extends Model
         //    return $query->orderBy(static::CREATED_AT,'desc');
            return $query->withCount('comment')->orderBy('comment_count','desc');
     }
+
+    public function tag()
+    {
+        return $this->belongsToMany(Tag::class);
+    }
     public static function boot()
     {
         static::addGlobalScope(new DeletedAdminScope);
