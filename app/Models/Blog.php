@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Query\Builder as QueryBuilder;
 use Illuminate\Support\Facades\Cache;
 
 class Blog extends Model
@@ -28,7 +29,17 @@ class Blog extends Model
     {
            return $query->orderBy(static::CREATED_AT,'desc');
     }
+      public function scopeLatestWithRelations(Builder $query)
+      {
+          # code...
+          return
+          $query
+          ->latest()
+          ->withCount('comment')
+          ->with('user','tag');
 
+
+      }
     public function scopeMostCommented(Builder $query)
     {
         //    return $query->orderBy(static::CREATED_AT,'desc');
@@ -39,6 +50,7 @@ class Blog extends Model
     {
         return $this->belongsToMany(Tag::class);
     }
+
     public static function boot()
     {
         static::addGlobalScope(new DeletedAdminScope);
@@ -48,9 +60,11 @@ class Blog extends Model
 
         static::deleting(function (Blog $blog) {
             $blog->comment()->delete();
+            //remove cache element when blog post is deleted
+            Cache::tags(['blog'])->forget("blog-{$blog->id}");
         });
         static::updating(function(Blog $blog){
-           Cache::forget("blog-{$blog->id}");
+           Cache::tags(['blog'])->forget("blog-{$blog->id}");
 
         });
         static::restoring(function (Blog $blog) {

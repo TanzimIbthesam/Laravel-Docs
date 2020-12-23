@@ -6,6 +6,7 @@
         <a class="text-black" href="{{ route('blogs.tags.index',['tag'=>$tag->id]) }}">{{ $tag->name }}</a>
         </span>
 @endforeach
+
     </div>
 
 

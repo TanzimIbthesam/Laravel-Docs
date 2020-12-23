@@ -5,6 +5,7 @@
  @if(Auth::user())
  <a href="{{ route('blogs.create') }}" class="px-4 py-1 bg-transparent border border-gray-900 text-orange-800">Create New Post</a>
  @endif
+
 </div>
 
 <div class="container mx-auto flex">
@@ -19,6 +20,7 @@
       @if ($blog->trashed())
           <del>
       @endif
+
         <a class="{{ $blog->trashed() ? 'text-red-800' : ' ' }}" href="{{ route('blogs.show',['blog'=>$blog->id]) }}">{{ $blog->title }}</a></div>
 
      @can('update', $blog)

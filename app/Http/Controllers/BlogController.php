@@ -30,7 +30,8 @@ class BlogController extends Controller
          [
 
 
-              'blogs' => Blog::latest()->withCount('comment')->with('user','tag')->get(),
+            //   'blogs' => Blog::latest()->withCount('comment')->with('user','tag','comment')->get(),
+                   'blogs'=>Blog::latestWithRelations()->get()
 
 
             ]);
@@ -64,16 +65,11 @@ class BlogController extends Controller
         $validated['user_id'] = $request->user()->id;
 
         $blogPost = Blog::create($validated);
-        //  dd($blogPost);
+
         $request->session()->flash('status', 'The Blog Post was Created!');
         return redirect()->route('blogs.show', ['blog' => $blogPost->id])->with('status', 'Your blog has been created');
 
-        // $validateData=$request->validated();
-        // $validatedData['user_id'] = $request->user()->id;
-        // $blogPost=Blog::create($validateData);
 
-
-        //      return redirect()->route('blogs.index', ['blog' => $blogPost->id])->with('status', 'Your blog has been created');
     }
 
     /**
@@ -85,8 +81,9 @@ class BlogController extends Controller
     public function show($id)
     {
 
-        $blog=Cache::remember("blog-{$id}", 60, function () use($id){
-             return  Blog::with('comment')->findorFail($id);
+        $blog=Cache::tags(['blog'])->remember("blog-{$id}", 60, function () use($id){
+             return  Blog::with('comment','tag','user','comment.user')
+            ->findorFail($id);
         });
         $sessionId=session()->getId();
         $counterKey="blog-{$id}-counter";

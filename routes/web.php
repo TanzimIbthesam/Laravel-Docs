@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BlogCommentController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\BlogPostController;
 use App\Http\Controllers\BlogTagController;
@@ -46,5 +47,6 @@ Route::get('/contact', [ContactController::class,'index'])->name('contact')
 Route::get('/secret', [ContactController::class,'secret'])->name('secret')
 ->middleware('can:contact.secret')
 ;
+Route::resource('blogs.comment', BlogCommentController::class)->only(['store']);
 // Route::view('/home', 'home')->middleware('auth');
 

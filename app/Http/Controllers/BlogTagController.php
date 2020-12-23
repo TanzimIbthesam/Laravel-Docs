@@ -14,7 +14,13 @@ class BlogTagController extends Controller
         # code...
         $tag=Tag::findOrFail($tag);
         return view('blogs.index',[
-            'blogs'=>$tag->blog,
+            'blogs'=>$tag->blog()
+            // ->latest()
+            // ->withCount('comment')
+            // ->with('user')
+            // ->with('tag')
+            // ->get()
+            ->latestWithRelations()->get()
 
         ]);
     }

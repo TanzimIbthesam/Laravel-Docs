@@ -48,12 +48,16 @@
 
 
     @forelse ($blog->comment as $allcomment)
-         <p>{{ $allcomment->content }},Added {{ $allcomment->created_at->diffForHumans() }}</p>
+         <p>{{ $allcomment->content }}</p>
+     @update(['date'=>$allcomment->created_at,'name'=>$allcomment->user->name])
 
+         @endupdate
 
     @empty
+
  <p class="text-2xl text-red-400">No Comments available</p>
     @endforelse
+    @include('comment.form')
   </div>
 
 </div>

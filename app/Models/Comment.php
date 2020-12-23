@@ -6,6 +6,7 @@ use App\Scopes\LatestScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Cache;
 
 class Comment extends Model
 {
@@ -21,5 +22,14 @@ class Comment extends Model
         # code...
           parent::boot();
         //   static::addGlobalScope(new LatestScope);
+        static::creating(function (Comment $comment) {
+            Cache::tags(['blog'])->forget("blog-{$comment->id}");
+            Cache::tags(['blog'])->forget('mostCommented');
+        });
+    }
+    public function user()
+    {
+        # code...
+        return $this->belongsTo(User::class);
     }
 }
