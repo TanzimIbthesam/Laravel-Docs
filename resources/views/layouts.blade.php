@@ -16,6 +16,10 @@
         a{
             text-decoration: none !important;
         }
+        .imagewidth{
+            height:400px;
+            width: 600px;
+        }
     </style>
 </head>
 <body>

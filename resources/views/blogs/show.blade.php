@@ -8,6 +8,12 @@
   <div class="px-6 py-4 ">
        <div class="flex">
        <div>
+           @if ($blog->image)
+               <img class="imagewidth" src="{{ Storage::url($blog->image->path) }}" width=600 height=50 alt="">
+
+               {{-- <h1 class="text-2xl text-red-500">Image not available</h1> --}}
+           @endif
+
 <h1 class="font-bold text-2xl mb-2">{{ $blog->title }}</h1>
 <p>Users Currently active-{{ $counter }}</p>
    @update(['date'=>$blog->created_at,'name'=>$blog->user->name])
@@ -40,9 +46,13 @@
        </div>
 
 
+
     <p class="text-gray-700 text-base">
      {{ $blog->body }}
     </p>
+ {{-- <img src="{{ asset($blog->image->path) }}" alt=""> --}}
+
+
     <h1 class="text-2xl font-bold">Comments</h1>
 
 

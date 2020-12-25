@@ -4,11 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\BlogStore;
 use App\Models\Blog;
-
+use App\Models\Image;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
-
-
-
+use Illuminate\Support\Facades\Storage;
 
 class BlogController extends Controller
 {
@@ -66,6 +65,12 @@ class BlogController extends Controller
 
         $blogPost = Blog::create($validated);
 
+    if($request->hasFile('image')){
+        $path=$request->file('image')->store('images','public');
+        $blogPost->image()->save(
+            Image::create(['path'=>$path])
+        );
+    }
         $request->session()->flash('status', 'The Blog Post was Created!');
         return redirect()->route('blogs.show', ['blog' => $blogPost->id])->with('status', 'Your blog has been created');
 
@@ -154,6 +159,18 @@ class BlogController extends Controller
         $this->authorize('update', $blog);
         $validateData = $request->validated();
         $blog->fill($validateData);
+        if ($request->hasFile('image')) {
+            $path = $request->file('image')->store('images', 'public');
+            if($blog->image){
+                Storage::delete($blog->image->path);
+                $blog->image->path=$path;
+                $blog->image->save();
+            }
+            $blog->image()->save(
+                Image::create(['path' => $path])
+            );
+        }
+
 
         $blog->save();
 

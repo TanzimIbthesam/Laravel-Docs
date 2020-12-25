@@ -40,6 +40,11 @@ class Blog extends Model
 
 
       }
+      public function image()
+      {
+          # code...
+          return $this->hasOne(Image::class);
+      }
     public function scopeMostCommented(Builder $query)
     {
         //    return $query->orderBy(static::CREATED_AT,'desc');
@@ -60,6 +65,7 @@ class Blog extends Model
 
         static::deleting(function (Blog $blog) {
             $blog->comment()->delete();
+            $blog->image()->delete();
             //remove cache element when blog post is deleted
             Cache::tags(['blog'])->forget("blog-{$blog->id}");
         });
