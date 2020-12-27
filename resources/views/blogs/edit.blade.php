@@ -10,7 +10,7 @@
     <label class="text-gray-600 font-light">Enter Title</label><br>
 <input type='text' value="{{ $blog->title }}" placeholder="Enter your title here" name="title" class="w-1/5 mt-2 mb-6 px-8 py-2 border rounded-lg text-gray-700 focus:outline-none focus:border-green-500" /><br>
  <textarea  value=""   name="body" class="w-1/5  py-10 text-gray-700 border rounded-lg focus:outline-none -mt-8" rows="4">{{ $blog->body }}</textarea>
- <input type='file' value={{ $blog->image->path }} placeholder="Enter your title here" name="image" class="w-1/5 mt-2 mb-6 px-8 py-2 border rounded-md text-gray-700 focus:outline-none focus:border-green-500" /><br>
+ <input type='file'  placeholder="Enter your title here" name="image" class="w-1/5 mt-2 mb-6 px-8 py-2 border rounded-md text-gray-700 focus:outline-none focus:border-green-500" /><br>
 @if($errors->any())
 
 @foreach ($errors->all() as $error)

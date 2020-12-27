@@ -57,20 +57,19 @@ class BlogController extends Controller
     public function store(BlogStore $request)
     {
 
-        // $blog=new Blog();
-        // $blog->user_id = Auth::user()->id;
+
         $validated = $request->validated();
 
         $validated['user_id'] = $request->user()->id;
 
         $blogPost = Blog::create($validated);
 
-    if($request->hasFile('image')){
-        $path=$request->file('image')->store('images','public');
-        $blogPost->image()->save(
-            Image::create(['path'=>$path])
-        );
-    }
+        if ($request->hasFile('blogimage')) {
+            $path = $request->file('blogimage')->store('images', 'public');
+            $blogPost->image()->save(
+                Image::create(['path' => $path])
+            );
+        }
         $request->session()->flash('status', 'The Blog Post was Created!');
         return redirect()->route('blogs.show', ['blog' => $blogPost->id])->with('status', 'Your blog has been created');
 

@@ -15,3 +15,4 @@ class Image extends Model
         return $this->belongsTo(Blog::class);
     }
 }
+

@@ -27,7 +27,7 @@ class BlogStore extends FormRequest
             //
             'title' => 'required',
             'body' => 'required',
-            'image'=>'image|mimes:jpg,jpeg,png,gif,svg|required|max:1024|dimensions:min_height=500'
+            'blogimage'=>'image|required|mimes:jpg,jpeg,png,gif,svg|max:1024'
         ];
     }
 
@@ -35,7 +35,7 @@ class BlogStore extends FormRequest
     {
        return[
            'title.required'=>'Please enter the post title',
-            'body.required'=>'Please neter the post body'
+            'body.required'=>'Please enter the post body'
        ];
     }
 }
