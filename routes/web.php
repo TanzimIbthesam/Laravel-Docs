@@ -7,6 +7,8 @@ use App\Http\Controllers\BlogTagController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\TestController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\UsersTestController;
 use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -32,15 +34,13 @@ Route::get('/blog-post/{id}/{welcome?}', function ($id, $welcome = 2) {
 // If suppose we are to change a route we should name it because while providing links in a menu
 
 
-Route::get('users/{id}', function ($id) {
 
-});
 Route::get('blogs/tag/{tag}',[BlogTagController::class,'index'])->name('blogs.tags.index');
 
 Route::resource('/customers',CustomerController::class);
 
 Route::resource('/blogs',BlogController::class);
-
+Route::resource('users', UserController::class)->only(['show','edit','update']);
 Route::get('/contact', [ContactController::class,'index'])->name('contact')
 ->middleware('can:blogs.contact')
 ;
@@ -48,5 +48,8 @@ Route::get('/secret', [ContactController::class,'secret'])->name('secret')
 ->middleware('can:contact.secret')
 ;
 Route::resource('blogs.comment', BlogCommentController::class)->only(['store']);
-// Route::view('/home', 'home')->middleware('auth');
+
+
+
+Route::view('/home', 'home')->middleware('auth');
 

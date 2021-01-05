@@ -46,7 +46,7 @@
            @endcan
 
     </form>
-    @update(['date'=>$blog->created_at,'name'=>$blog->user->name])
+    @update(['date'=>$blog->created_at,'name'=>$blog->user->name,'userId'=>$blog->user->id])
 
     @endupdate
 

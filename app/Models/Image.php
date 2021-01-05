@@ -14,5 +14,11 @@ class Image extends Model
         # code...
         return $this->belongsTo(Blog::class);
     }
+    public function imageable()
+    {
+        # code...
+        return $this->morphTo();
+
+    }
 }
 

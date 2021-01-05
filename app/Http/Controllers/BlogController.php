@@ -67,7 +67,7 @@ class BlogController extends Controller
         if ($request->hasFile('blogimage')) {
             $path = $request->file('blogimage')->store('images', 'public');
             $blogPost->image()->save(
-                Image::create(['path' => $path])
+                Image::make(['path' => $path])
             );
         }
         $request->session()->flash('status', 'The Blog Post was Created!');
@@ -166,7 +166,7 @@ class BlogController extends Controller
                 $blog->image->save();
             }
             $blog->image()->save(
-                Image::create(['path' => $path])
+                Image::make(['path' => $path])
             );
         }
 

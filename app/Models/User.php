@@ -66,5 +66,10 @@ class User extends Authenticatable
         # code...
         return $this->hasMany(Comment::class);
     }
+    public function image()
+    {
+        # code...
+        return $this->morphOne(Image::class, 'imageable');
+    }
 
 }

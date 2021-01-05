@@ -40,10 +40,15 @@ class Blog extends Model
 
 
       }
+    //   public function imageable()
+    //   {
+    //     # code...
+    //     return $this->morphTo();
+    //   }
       public function image()
       {
           # code...
-          return $this->hasOne(Image::class);
+          return $this->morphOne(Image::class,'imageable');
       }
     public function scopeMostCommented(Builder $query)
     {
