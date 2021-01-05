@@ -7,6 +7,7 @@ use App\Http\Controllers\BlogTagController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\TestController;
+use App\Http\Controllers\UserCommentController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UsersTestController;
 use App\Http\Controllers\WelcomeController;
@@ -48,6 +49,7 @@ Route::get('/secret', [ContactController::class,'secret'])->name('secret')
 ->middleware('can:contact.secret')
 ;
 Route::resource('blogs.comment', BlogCommentController::class)->only(['store']);
+Route::resource('users.comment', UserCommentController::class)->only(['store']);
 
 
 

@@ -13,6 +13,11 @@ class BlogCommentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct()
+    {
+        # code...
+        $this->middleware('auth')->only(['store']);
+    }
     public function index()
     {
         //
@@ -26,7 +31,7 @@ class BlogCommentController extends Controller
     public function create()
     {
         //
-        $this->middleware('auth')->only(['store']);
+
         //Users have to be authenticated before they can send a comment
     }
 
@@ -44,9 +49,10 @@ class BlogCommentController extends Controller
             'user_id'=>$request->user()->id
 
         ]);
-        $request->session()->flash('status','Comment was created');
+        // $request->session()->flash('status','Comment was created');
 
-        return redirect()->back();
+        return redirect()->back()
+        ->withStatus('Comment was created');
     }
 
     /**

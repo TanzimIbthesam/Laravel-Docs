@@ -13,9 +13,13 @@ class Comment extends Model
     use HasFactory;
     use SoftDeletes;
     protected $guarded=[];
-    public function blog()
+    // public function blog()
+    // {
+    //     return $this->belongsTo(Blog::class);
+    // }
+    public function commentable()
     {
-        return $this->belongsTo(Blog::class);
+        return $this->morphTo();
     }
     public static function boot()
     {
@@ -23,8 +27,13 @@ class Comment extends Model
           parent::boot();
         //   static::addGlobalScope(new LatestScope);
         static::creating(function (Comment $comment) {
-            Cache::tags(['blog'])->forget("blog-{$comment->id}");
-            Cache::tags(['blog'])->forget('mostCommented');
+
+            if($comment->commentable_type=Blog::class){
+                Cache::tags(['blog'])->forget("blog-{$comment->commentable_id}");
+                Cache::tags(['blog'])->forget('mostCommented');
+
+            }
+
         });
     }
     public function user()

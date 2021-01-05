@@ -61,10 +61,15 @@ class User extends Authenticatable
         }])->has('blog', '>=', 2)
         ->orderBy('blog_count','desc');
     }
-    public function comment()
+    // public function comment()
+    // {
+    //     # code...
+    //     return $this->hasMany(Comment::class);
+    // }
+    public function commentOn()
     {
         # code...
-        return $this->hasMany(Comment::class);
+        return $this->morphMany(Comment::class,'commentable');
     }
     public function image()
     {

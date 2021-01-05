@@ -18,14 +18,17 @@ class CommentsTableSeeder extends Seeder
     {
         //
         $blog=Blog::all();
-        if($blog->count()===0){
+        $users = User::all();
+
+        $commentCount = (int)$this->command->ask('How many comments you would like?', 10);
+        if ($blog->count() === 0 || $users->count() == 0) {
             $this->command->info('There are no blog posts,so no comments will be added');
             return;
         }
-        $commentCount = (int)$this->command->ask('How many comments you would like?', 10);
-         $users =User::all();
+
         Comment::factory($commentCount)->make()->each(function ($comment) use ($blog,$users) {
-            $comment->blog_id = $blog->random()->id;
+            $comment->commentable_id = $blog->random()->id;
+            $comment->commentable_type='App\Models\Blogs';
             $comment->user_id=$users->random()->id;
             $comment->save();
     });

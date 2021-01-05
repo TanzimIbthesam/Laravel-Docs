@@ -18,7 +18,8 @@ class Blog extends Model
     protected $guarded=[];
     public function comment()
     {
-        return $this->hasMany(Comment::class)->latest();
+        // return $this->hasMany(Comment::class)->latest();
+        return $this->morphMany(Comment::class,'commentable')->latest();
     }
     public function user()
     {
