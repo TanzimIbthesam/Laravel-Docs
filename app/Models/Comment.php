@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Scopes\LatestScope;
+use App\Traits\Taggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -10,17 +11,22 @@ use Illuminate\Support\Facades\Cache;
 
 class Comment extends Model
 {
-    use HasFactory;
-    use SoftDeletes;
+    use HasFactory, SoftDeletes,Taggable;
     protected $guarded=[];
-    // public function blog()
-    // {
-    //     return $this->belongsTo(Blog::class);
-    // }
+    public function blog()
+    {
+        return $this->belongsTo(Blog::class);
+    }
     public function commentable()
     {
         return $this->morphTo();
     }
+    // public function tag()
+    // {
+    //     // return $this->belongsToMany(Tag::class);
+    //     return $this->morphToMany(Tag::class, 'taggable');
+    // }
+
     public static function boot()
     {
         # code...

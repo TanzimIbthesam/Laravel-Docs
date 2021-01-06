@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Scopes\DeletedAdminScope;
 use App\Scopes\LatestScope;
+use App\Traits\Taggable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -13,8 +14,8 @@ use Illuminate\Support\Facades\Cache;
 
 class Blog extends Model
 {
-    use HasFactory;
-    use SoftDeletes;
+    use HasFactory,SoftDeletes,Taggable;
+    // use SoftDeletes;
     protected $guarded=[];
     public function comment()
     {
@@ -57,10 +58,11 @@ class Blog extends Model
            return $query->withCount('comment')->orderBy('comment_count','desc');
     }
 
-    public function tag()
-    {
-        return $this->belongsToMany(Tag::class);
-    }
+    // public function tag()
+    // {
+    //     // return $this->belongsToMany(Tag::class);
+    //     return $this->morphToMany(Tag::class, 'taggable');
+    // }
 
     public static function boot()
     {

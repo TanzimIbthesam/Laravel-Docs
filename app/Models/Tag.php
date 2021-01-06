@@ -10,7 +10,14 @@ class Tag extends Model
     use HasFactory;
     public function blog(){
 
-        return $this->belongsToMany(Blog::class);
+        // return $this->belongsToMany(Blog::class);
+        return $this->morphedByMany(Blog::class,'taggable');
+
+    }
+    public function comment(){
+
+        // return $this->belongsToMany(Blog::class);
+        return $this->morphedByMany(Comment::class,'commentable');
 
     }
 }
