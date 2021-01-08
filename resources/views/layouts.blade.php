@@ -29,7 +29,7 @@
            <ul class="flex py-1">
                    @guest
                    @if(Route::has('register'))
-                     <li><a href="{{ route('register') }}" class="no-underline text-xl text-black ">Register</a></li>
+                     <li><a href="{{ route('register') }}" class="no-underline text-xl text-black text-bold">Register</a></li>
                    @endif
                  <li><a href="{{ route('login') }}" class="no-underline text-xl text-black pl-2">Login</a></li>
 

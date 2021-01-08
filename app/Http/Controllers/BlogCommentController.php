@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreComment;
+use App\Mail\CommentPosted;
+use App\Mail\CommentPostedMarkDown;
 use App\Models\Blog;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class BlogCommentController extends Controller
 {
@@ -44,15 +47,23 @@ class BlogCommentController extends Controller
     public function store(Blog $blog,StoreComment $request)
     {
         //
-        $blog->comment()->create([
+       $comment= $blog->comment()->create([
             'content'=>$request->input('content'),
             'user_id'=>$request->user()->id
 
         ]);
         // $request->session()->flash('status','Comment was created');
+        Mail::to($blog->user)->send(
+             new CommentPostedMarkDown($comment)
+
+
+        );
 
         return redirect()->back()
         ->withStatus('Comment was created');
+
+
+
     }
 
     /**

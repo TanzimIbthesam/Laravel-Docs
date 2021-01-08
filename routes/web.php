@@ -11,6 +11,7 @@ use App\Http\Controllers\UserCommentController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UsersTestController;
 use App\Http\Controllers\WelcomeController;
+use App\Models\Comment;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 Route::get('/',[BlogController::class,'index']);
@@ -51,7 +52,11 @@ Route::get('/secret', [ContactController::class,'secret'])->name('secret')
 Route::resource('blogs.comment', BlogCommentController::class)->only(['store']);
 Route::resource('users.comment', UserCommentController::class)->only(['store']);
 
+Route::get('mailable', function () {
+    $comment=Comment::find(1);
+    return new App\Mail\CommentPostedMarkDown($comment);
 
+});
 
 Route::view('/home', 'home')->middleware('auth');
 
