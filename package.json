@@ -23,6 +23,7 @@
         "vue-template-compiler": "^2.6.12"
     },
     "dependencies": {
+        "redis-server": "^1.2.2",
         "tailwindcss": "^1.8.10"
     }
 }

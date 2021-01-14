@@ -3,8 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreComment;
+use App\Jobs\NotifyUsersPostWasCommented;
+use App\Jobs\ThrottleMail;
 use App\Mail\CommentPosted;
 use App\Mail\CommentPostedMarkDown;
+use App\Mail\CommentPostedOnPostWatched;
+use App\Mail\CommentPostedOnWatch;
 use App\Models\Blog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
@@ -58,6 +62,30 @@ class BlogCommentController extends Controller
 
 
         );
+        //For immediate processing
+        // Mail::to($blog->user)->queue(
+        //     //  new CommentPostedMarkDown($comment)
+
+        //     new CommentPostedMarkdown($comment)
+        // );
+        // Mail::to($blog->user)->queue(
+        //      new  CommentPostedMarkDown($comment)
+        //     //new CommentPostedOnPostWatched($comment)
+        // );
+
+
+        //  ThrottleMail::dispatch(new CommentPostedMarkDown($comment),$blog->user);
+
+         NotifyUsersPostWasCommented::dispatch($comment);
+// NotifyUsersPostWasCommented::dispatch($comment);
+        //For passing it one minute later
+        // $when=now()->addMinutes(1);
+        // Mail::to($blog->user)->later(
+        //     $when,
+        //     new CommentPostedMarkDown($comment)
+
+
+        // );
 
         return redirect()->back()
         ->withStatus('Comment was created');
