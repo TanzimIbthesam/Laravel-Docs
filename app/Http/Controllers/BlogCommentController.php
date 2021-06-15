@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\CommentPosted as EventsCommentPosted;
 use App\Http\Requests\StoreComment;
 use App\Jobs\NotifyUsersPostWasCommented;
 use App\Jobs\ThrottleMail;
@@ -57,11 +58,12 @@ class BlogCommentController extends Controller
 
         ]);
         // $request->session()->flash('status','Comment was created');
-        Mail::to($blog->user)->send(
-             new CommentPostedMarkDown($comment)
+        event(new EventsCommentPosted($comment));
+        // Mail::to($blog->user)->send(
+        //      new CommentPostedMarkDown($comment)
 
 
-        );
+        // );
         //For immediate processing
         // Mail::to($blog->user)->queue(
         //     //  new CommentPostedMarkDown($comment)
@@ -76,7 +78,7 @@ class BlogCommentController extends Controller
 
         //  ThrottleMail::dispatch(new CommentPostedMarkDown($comment),$blog->user);
 
-         NotifyUsersPostWasCommented::dispatch($comment);
+        //  NotifyUsersPostWasCommented::dispatch($comment);
 // NotifyUsersPostWasCommented::dispatch($comment);
         //For passing it one minute later
         // $when=now()->addMinutes(1);

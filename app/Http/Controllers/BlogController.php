@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\BlogPosted;
 use App\Http\Requests\BlogStore;
 use App\Models\Blog;
 use App\Models\Image;
@@ -70,6 +71,7 @@ class BlogController extends Controller
                 Image::make(['path' => $path])
             );
         }
+        event(new BlogPosted(($blogPost)));
         $request->session()->flash('status', 'The Blog Post was Created!');
         return redirect()->route('blogs.show', ['blog' => $blogPost->id])->with('status', 'Your blog has been created');
 

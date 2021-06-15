@@ -21,6 +21,7 @@ class Image extends Model
         return $this->morphTo();
 
     }
+    // Comments
     public function url(){
         return Storage::url($this->path);
     }

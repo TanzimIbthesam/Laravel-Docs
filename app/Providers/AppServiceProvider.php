@@ -3,6 +3,10 @@
 namespace App\Providers;
 
 use App\Http\ViewComposers\ActivityComposer;
+use App\Models\Blog;
+use App\Models\Comment;
+use App\Observers\BlogObservor;
+use App\Observers\CommentObservor;
 use App\View\Components\Badge;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
@@ -36,5 +40,8 @@ class AppServiceProvider extends ServiceProvider
         Blade::aliasComponent('components.comment_list','commentList');
 
         view()->composer(['blogs.index','blogs.show'],ActivityComposer::class);
+         Blog::observe(BlogObservor::class);
+         Comment::observe(CommentObservor::class);
+         
     }
 }

@@ -7,7 +7,7 @@ use App\Traits\Taggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Facades\Cache;
+
 
 class Comment extends Model
 {
@@ -34,11 +34,11 @@ class Comment extends Model
         //   static::addGlobalScope(new LatestScope);
         static::creating(function (Comment $comment) {
 
-            if($comment->commentable_type=Blog::class){
-                Cache::tags(['blog'])->forget("blog-{$comment->commentable_id}");
-                Cache::tags(['blog'])->forget('mostCommented');
+            // if($comment->commentable_type=Blog::class){
+            //     Cache::tags(['blog'])->forget("blog-{$comment->commentable_id}");
+            //     Cache::tags(['blog'])->forget('mostCommented');
 
-            }
+            // }
 
         });
     }

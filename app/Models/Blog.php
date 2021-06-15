@@ -71,18 +71,18 @@ class Blog extends Model
         // static::addGlobalScope(new LatestScope);
 
 
-        static::deleting(function (Blog $blog) {
-            $blog->comment()->delete();
-            $blog->image()->delete();
-            //remove cache element when blog post is deleted
-            Cache::tags(['blog'])->forget("blog-{$blog->id}");
-        });
-        static::updating(function(Blog $blog){
-           Cache::tags(['blog'])->forget("blog-{$blog->id}");
+        // static::deleting(function (Blog $blog) {
+        //     $blog->comment()->delete();
+        //     $blog->image()->delete();
+        //     //remove cache element when blog post is deleted
+        //     Cache::tags(['blog'])->forget("blog-{$blog->id}");
+        // });
+        // static::updating(function(Blog $blog){
+        //    Cache::tags(['blog'])->forget("blog-{$blog->id}");
 
-        });
-        static::restoring(function (Blog $blog) {
-            $blog->comment()->delete();
-        });
+        // });
+        // static::restoring(function (Blog $blog) {
+        //     $blog->comment()->delete();
+        // });
     }
 }
